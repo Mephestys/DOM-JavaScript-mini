@@ -10,7 +10,7 @@ class TabItem {
 
   deselect() {
     // should use classList
-    // this.element.classList.remove('Tabs__item-selected');
+    this.element.classList.remove('Tabs__item-selected');
   }
 }
 
@@ -35,9 +35,9 @@ class TabLink {
 
   deselect() {
     // deselect this link
-    // this.element.classList.remove('Tabs__link-selected');
+    this.element.classList.remove('Tabs__link-selected');
     // deselect the associated tab
-    // this.tabItem.deselect();
+    this.tabItem.deselect();
   }
 }
 
