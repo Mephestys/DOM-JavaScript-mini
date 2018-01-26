@@ -16,6 +16,7 @@ class TabLink {
     this.tabItem = this.tabs.getTab(this.element.dataset.tab); // assign this to the associated tab using the parent's "getTab" method by passing it the correct data
     this.tabItem = new TabItem(this.tabItem); // reassign this.tabItem to be a new instance of TabItem, passing it this.tabItem
     this.element.addEventListener('click', (event) => {
+      console.log(event.target.dataset.tab);
       event.stopPropagation();
       this.tabs.updateActive(this);
       this.toggle();
@@ -53,10 +54,10 @@ class Tabs {
     this.activeLink = newActive;
   }
 
-  // getTab(data) {
-  //   // use the tab item classname and the data attribute to select the proper tab
-  //   return this.element.querySelector(`.Tabs__item[data-tab='${data}']`);
-  // }
+  getTab(data) {
+    // use the tab item classname and the data attribute to select the proper tab
+    return this.element.querySelector(`.Tabs__item[data-tab='${data}']`);
+  }
 
 }
 
