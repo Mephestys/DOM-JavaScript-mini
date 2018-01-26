@@ -1,62 +1,36 @@
-class TabItem {
-  constructor(element) {
-    this.element = element;
-  }
+let tabElement = document.querySelectorAll(".Tabs");
 
-  toggle() {
-    this.element.classList.toggle('Tabs__item-selected');
-  }
-}
+const tabFactory = (element) => {
+  const links = element.querySelectorAll('.Tabs__link');
+  const items = element.querySelectorAll('.Tabs__item');
 
-class TabLink {
-  constructor(element) {
-    this.element = element;
-  }
+  element.addEventListener('click', (event) => {
+    tabElement.updateActive(event.target.dataset.tab);
+    event.stopPropagation();
+  });
 
-  toggle() {
-    this.element.classList.toggle('Tabs__link-selected');
-  }
-}
+  links[0].classList.add('Tabs__link-selected');
+  items[0].classList.add('Tabs__item-selected');
 
-class Tabs {
-  constructor(element) {
-    this.element = element;
-    this.element.addEventListener('click', (event) => {
-      this.updateActive(event.target.dataset.tab);
-      event.stopPropagation();
-    });
+  return {
+    element: element,
+    links: links,
+    items: items,
+    activeLink: links[0],
+    activeItem: items[0],
+    updateActive: (index) => {
+      if(index) {
+        tabElement.activeLink.classList.remove('Tabs__link-selected');
+        tabElement.activeItem.classList.remove('Tabs__item-selected');
 
-    this.links = element.querySelectorAll('.Tabs__link');
-    this.links = Array.from(this.links).map((link) => {
-      return new TabLink(link);
-    });
+        tabElement.links[index-1].classList.add('Tabs__link-selected');
+        tabElement.items[index-1].classList.add('Tabs__item-selected');
 
-    this.tabItems = element.querySelectorAll('.Tabs__item');
-    this.tabItems = Array.from(this.tabItems).map((item) => {
-      return new TabItem(item);
-    });
-
-    this.activeLink = this.links[0];
-    this.activeItem = this.tabItems[0];
-    this.init();
-  }
-
-  init() {
-    this.links[0].element.classList.add('Tabs__link-selected');
-    this.tabItems[0].element.classList.add('Tabs__item-selected');
-  }
-
-  updateActive(index) {
-    if(index){
-      this.activeLink.toggle();
-      this.links[index-1].toggle();
-      this.activeLink = this.links[index-1];
-      this.activeItem.toggle();
-      this.tabItems[index-1].toggle();
-      this.activeItem = this.tabItems[index-1];
+        tabElement.activeLink = tabElement.links[index-1];
+        tabElement.activeItem = tabElement.items[index-1];
+      }
     }
   }
 }
 
-let tabs = document.querySelectorAll('.Tabs');
-Array.from(tabs).forEach((tabs) => new Tabs(tabs));
+tabElement = tabFactory(tabElement[0]);
